@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import Logo from '../assets/logo.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -49,7 +50,7 @@ const Footer = () => {
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center p-1">
                 <img 
-                  src="/src/assets/logo.png" 
+                  src={Logo} 
                   alt="Akaal Autohub Logo" 
                   className="w-full h-full object-contain"
                 />

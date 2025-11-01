@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Logo from '../assets/logo.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,7 +43,7 @@ const Header = () => {
           >
             <div className="w-12 h-12 rounded-lg flex items-center justify-center p-1">
               <img 
-                src="/src/assets/logo.png" 
+                src={Logo} 
                 alt="Akaal Autohub Logo" 
                 className="w-full h-full object-contain"
               />
@@ -118,7 +119,7 @@ const Header = () => {
                   <div className="flex items-center space-x-2">
                     <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center p-1">
                       <img 
-                        src="/src/assets/logo.png" 
+                        src={Logo} 
                         alt="Akaal Autohub Logo" 
                         className="w-full h-full object-contain"
                       />
