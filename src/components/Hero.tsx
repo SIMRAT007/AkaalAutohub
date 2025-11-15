@@ -1,11 +1,74 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useState, useEffect, useRef } from 'react';
+import car1 from '../assets/car1.mp4';
+import car2 from '../assets/car2.mp4';
+import car3 from '../assets/car3.mp4'; 
 
 const Hero = () => {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
   });
+
+  // Video carousel state
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  
+  // Refs to control video elements
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  
+  // Video URLs - .mov files need to be converted to .mp4 for web compatibility
+  const videos = [
+    car2, 
+    car1, 
+    car3 
+  ];
+  
+  // Check if videos are available
+  const hasValidVideos = videos.every(video => video && typeof video === 'string');
+
+  // Effect to play current video when index changes
+  useEffect(() => {
+    const currentVideo = videoRefs.current[currentVideoIndex];
+    if (currentVideo) {
+      // Reset and play the current video
+      currentVideo.currentTime = 0;
+      const playPromise = currentVideo.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.error('Video play failed:', error);
+        });
+      }
+    }
+    
+    // Pause other videos
+    videoRefs.current.forEach((video, index) => {
+      if (video && index !== currentVideoIndex) {
+        video.pause();
+      }
+    });
+  }, [currentVideoIndex]);
+
+  // Handle video end event to play next video
+  const handleVideoEnd = () => {
+    setCurrentVideoIndex((prevIndex) => {
+      if (prevIndex === videos.length - 1) {
+        return 0; // Loop back to first video when all are done
+      }
+      return prevIndex + 1; // Move to next video
+    });
+  };
+
+  // Handle video load error
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    console.error('Video failed to load:', e.currentTarget.src);
+  };
+
+  // Handle video load success
+  const handleVideoLoad = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    console.log('Video loaded successfully:', e.currentTarget.src);
+  };
 
   return (
     <section id="home" className="min-h-screen bg-white relative overflow-hidden pt-16 md:pt-20">
@@ -52,7 +115,7 @@ const Hero = () => {
               <span className="text-gray-800 block">
                 Deserves the
               </span>
-              <span className="bg-gradient-to-r from-[#5B051F] to-red-600 bg-clip-text text-transparent block">
+              <span className="bg-gradient-to-r from-[#5B051F] to-red-400 bg-clip-text text-transparent block imperial text-8xl sm:text-6xl lg:text-7xl italic">
                 Best Care
               </span>
             </motion.h1>
@@ -129,16 +192,69 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-tl from-[#5B051F]/5 to-red-500/5 rounded-3xl transform -rotate-2" />
             
             <div className="relative z-10 w-full h-full">
-              <div className="sketchfab-embed-wrapper w-full h-full">
-                <iframe 
-                  title="Akaal Autohub" 
-                  frameBorder="0" 
-                  allowFullScreen 
-                  allow="autoplay; fullscreen; xr-spatial-tracking" 
-                  src="https://sketchfab.com/models/91b5815c64eb43b0a88f6fdb9df774e4/embed?autospin=1&autostart=1&transparent=1&ui_animations=0&ui_infos=0&ui_stop=0&ui_inspector=0&ui_watermark_link=0&ui_watermark=0&ui_ar=0&ui_help=0&ui_settings=0&ui_vr=0&ui_fullscreen=0&ui_annotations=0&ui_theme=dark&ui_color=ffffff&dnt=1"
-                  className="w-[100%] h-full rounded-2xl"
-                  style={{ border: 'none' }}
-                />
+              {/* Sequential Video Player */}
+              <div className="relative w-full h-full overflow-hidden rounded-2xl">
+                {hasValidVideos ? (
+                  <>
+                    {videos.map((videoSrc, index) => (
+                      <motion.video
+                        key={`video-${index}`}
+                        ref={(el) => { videoRefs.current[index] = el; }}
+                        className="absolute inset-0 w-full h-full object-cover rounded-2xl"
+                        muted
+                        playsInline
+                        controls={false}
+                        onEnded={handleVideoEnd}
+                        onError={handleVideoError}
+                        onLoadedData={handleVideoLoad}
+                        preload="metadata"
+                        initial={{ opacity: 0, scale: 1.1 }}
+                        animate={{ 
+                          opacity: index === currentVideoIndex ? 1 : 0,
+                          scale: index === currentVideoIndex ? 1 : 1.1
+                        }}
+                        transition={{ duration: 0.8, ease: "easeInOut" }}
+                        style={{
+                          zIndex: index === currentVideoIndex ? 10 : 1,
+                          display: index === currentVideoIndex ? 'block' : 'none'
+                        }}
+                      >
+                        <source src={videoSrc} type="video/quicktime" />
+                        <source src={videoSrc} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </motion.video>
+                    ))}
+                    
+                    {/* Simple Video Indicator */}
+                    {/* <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+                      {videos.map((_, index) => (
+                        <div
+                          key={index}
+                          className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                            index === currentVideoIndex 
+                              ? 'bg-white' 
+                              : index < currentVideoIndex 
+                                ? 'bg-white/50' 
+                                : 'bg-white/25'
+                          }`}
+                        />
+                      ))}
+                    </div> */}
+                  </>
+                ) : (
+                  /* Fallback content when videos are not available */
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#5B051F]/20 to-red-500/20 rounded-2xl flex items-center justify-center">
+                    <div className="text-center text-white p-8">
+                      <div className="w-24 h-24 mx-auto mb-4 bg-[#5B051F]/30 rounded-full flex items-center justify-center">
+                        <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M8 5v10l7-5z"/>
+                        </svg>
+                      </div>
+                      <p className="text-lg font-semibold mb-2">Videos Loading...</p>
+                      <p className="text-sm opacity-75">Converting .mov files to web-compatible format</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>

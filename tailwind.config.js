@@ -5,7 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'display': ['Playfair Display', 'serif'],
+        'modern': ['Inter', 'system-ui', 'sans-serif'],
+        'cool': ['Orbitron', 'monospace'],
+        'elegant': ['Poppins', 'sans-serif'],
+        'tech': ['Space Grotesk', 'monospace'],
+      }
+    },
   },
   plugins: [],
 }

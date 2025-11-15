@@ -84,7 +84,7 @@ const Contact = () => {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          access_key: 'YOUR_ACCESS_KEY_HERE', // Replace with your Web3Forms access key
+          access_key: 'e476b828-c9eb-4521-9b47-9431432c64b9', // Replace with your Web3Forms access key
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -177,7 +177,7 @@ const Contact = () => {
           </motion.div>
           
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Ready to <span className="text-[#5B051F]">Transform</span> Your Car?
+            Ready to <span className="bg-gradient-to-r from-[#5B051F] to-red-600 bg-clip-text text-transparent imperial">Transform</span> Your Car?
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
             Schedule your appointment today and experience the Akaal Autohub difference. 

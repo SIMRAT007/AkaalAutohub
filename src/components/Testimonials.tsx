@@ -98,7 +98,7 @@ const Testimonials = () => {
           </motion.div>
           
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            What Our <span className="text-[#5B051F]">Customers Say</span>
+            What Our <span className="bg-gradient-to-r from-[#5B051F] to-red-600 bg-clip-text text-transparent imperial">Customers Say</span>
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
             Don't just take our word for it. Here's what our satisfied customers have to say about their experience with Akaal Autohub.

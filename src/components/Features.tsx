@@ -75,7 +75,7 @@ const Features = () => {
           </motion.div>
           
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Why Choose <span className="text-[#5B051F]">Akaal Autohub</span>
+            Why Choose <span className="bg-gradient-to-r from-[#5B051F] to-red-600 bg-clip-text text-transparent imperial">Akaal Autohub</span>
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
             We're committed to providing exceptional car care services that exceed expectations 
@@ -183,7 +183,7 @@ const Features = () => {
         >
           <div className="text-center mb-16">
             <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              Our Simple <span className="text-[#5B051F]">3-Step Process</span>
+              Our Simple <span className="text-[#5B051F]">3-</span><span className="bg-gradient-to-r from-[#5B051F] to-red-600 bg-clip-text text-transparent imperial">Step Process</span>
             </h3>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
               Get your car serviced in three simple steps with our streamlined process
